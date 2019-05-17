@@ -1,99 +1,197 @@
-# Java 100本ノックとは
+# testProjectToDevOps
 
-プログラミング言語 Java に関するスキル向上を目的とした問題集です。
-具体的には、運用環境で安定稼働でき、かつ、保守性・拡張性に優れたコードがより多く生産できるようになることを目指しています。
+This application was generated using JHipster 5.8.2, you can find documentation and help at [https://www.jhipster.tech/documentation-archive/v5.8.2](https://www.jhipster.tech/documentation-archive/v5.8.2).
 
-Javaを初めて使う方から中級者までをメインターゲットにしています。
+## Development
 
-**コメント・ツッコミ・誤り訂正・解答例追加などなど、IssueやPull Requestを歓迎します！**
+Before you can build this project, you must install and configure the following dependencies on your machine:
 
-## [目次](contents/toc.md)
+1.  [Node.js][]: We use Node to run a development web server and build the project.
+    Depending on your system, you can install Node either from source or as a pre-packaged bundle.
 
-    001-010 はじめの一歩
-    011-040 言語仕様
-    041-060 コアAPI
-    061-080 複合・Java EE
-    081-090 ライブラリ
-    091-099 フレームワーク
-    100     Webアプリケーションの作成
+After installing Node, you should be able to run the following command to install development tools.
+You will only need to run this command when dependencies change in [package.json](package.json).
 
-***
-# ルール
+    npm install
 
-* コーディング規約は、Oracle社が公開している [Code Conventions for the Java Programming Language](http://www.oracle.com/technetwork/articles/javase/codeconvtoc-136057.html) に従うものとします。
-* 特に断り書きがない限り、JavaコアAPIおよびJavaEEと、JDK標準のコマンドのみを使用することとします。
+We use npm scripts and [Webpack][] as our build system.
 
-***
-# リポジトリ構成
-## ディレクトリ構造
+Run the following commands in two separate terminals to create a blissful development experience where your browser
+auto-refreshes when files change on your hard drive.
 
-以下のディレクトリ構造とします。
+    ./mvnw
+    npm start
 
-```
-/
-├ README.md                         README(本書)
-├ eula.txt                          使用許諾契約
-│
-└ contents/                         100本ノック設問および解答
-  ├ toc.md                          問題の目次
-  │
-  └ nnn/                            設問番号(001～100)
-    ├ README.md                     問題
-    ├ (問題のREADME.mdから参照される画像など；imagesなどディレクトリを作成してもOK)
-    │
-    ├ answer/                       解答例(このディレクトリ配下はREADME.md以外自由)
-    │├ README.md                   解答の説明
-    │├ answernnn.bat               例：解答プログラム実行用batファイル(nnnは設問番号)
-    │├ answernnn.sh                例：解答プログラム実行用shファイル(nnnは設問番号)
-    │├ pom.xml                     例：Maven用定義ファイル
-    │├ src/                        例：ソース
-    │├ conf/                       例：コンフィグファイル
-    │：
-    │
-    └ test/                         解答が正しいことを確認するテスト(README.md以外自由)
-      ├ README.md                   テストの説明
-      ├ testnnn.bat                 例：テスト実行用batファイル(nnnは設問番号)
-      ├ testnnn.sh                  例：テスト実行用shファイル(nnnは設問番号)
-      ├ pom.xml                     例：Maven用定義ファイル
-      ├ src/                        例：ソース
-      ├ conf/                       例：コンフィグファイル
-      ：
+Npm is also used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
+specifying a newer version in [package.json](package.json). You can also run `npm update` and `npm install` to manage dependencies.
+Add the `help` flag on any command to see how you can use it. For example, `npm help update`.
+
+The `npm run` command will list all of the scripts available to run for this project.
+
+### Service workers
+
+Service workers are commented by default, to enable them please uncomment the following code.
+
+-   The service worker registering script in index.html
+
+```html
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./service-worker.js').then(function() {
+            console.log('Service Worker Registered');
+        });
+    }
+</script>
 ```
 
-## 各ファイル共通の規定
-* ファイルの文字コードは UTF-8 とします。
-* 問題や解答に関係のない内容は含めないようにします。
-* .mdファイル のフォーマットは、 [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/) 形式とします。
+Note: workbox creates the respective service worker and dynamically generate the `service-worker.js`
 
-## 問題ファイルの規定
+### Managing dependencies
 
-* Webブラウザで問題を巡回して参照できるように、以下の3つのリンクを設けることとします。
-    1. [問題の目次](contents/toc.md) へのリンク
-    2. 前の問題 へのリンク ([001](contents/001/README.md)ではリンクなし)
-    3. 次の問題 へのリンク ([100](contents/100/README.md)ではリンクなし)
+For example, to add [Leaflet][] library as a runtime dependency of your application, you would run following command:
 
-## 解答ファイルの規定
+    npm install --save --save-exact leaflet
 
-* `README.md` に解答文書を記載します。
-    * プログラムを実行するものについては実行方法をなるべく詳細に記述します。
-    * 冒頭に 問題 へのリンクを設けることとします。
-* Javaコードのpackageはデフォルトとします。
+To benefit from TypeScript type definitions from [DefinitelyTyped][] repository in development, you would run following command:
 
-***
-# ご利用条件
-以下の利用条件は、株式会社ジャストシステム（以下、「弊社」といいます）が、本リポジトリ(https://github.com/JustSystems/java-100practices) で公開されるすべてのファイル、プログラム、および情報（以下、これらを総称して「本公開情報」といいいます）の取扱いに関し定めたものです。本公開情報を本リポジトリ上に公開する者（以下「開示者」といいます）及び本公開情報を利用する者（以下「利用者」といいます）は、本公開情報の公開及び利用に関し、以下の内容に同意のうえ本リポジトリをご利用いただくものとします。なお、本リポジトリの公開は予告なく終了する場合があります。
+    npm install --save-dev --save-exact @types/leaflet
 
-記
+Then you would import the JS and CSS files specified in library's installation instructions so that [Webpack][] knows about them:
+Edit [src/main/webapp/app/vendor.ts](src/main/webapp/app/vendor.ts) file:
 
-1. 本公開情報は開示者から現状有姿で提供され、その品質および機能が完全であることおよび利用者の使用目的に適合することを保証するものではなく、開示者は本公開情報についての瑕疵担保責任および保証責任を一切負いません。本公開情報の利用は利用者の責任で行うものとし、本公開情報の利用およびその結果についても同様とします。
-2. 開示者は、本公開情報の使用または使用不能から生ずる直接的または間接的損害については一切責任を負いません。
-3. 利用者に対し、本公開情報に関するサポートは一切提供されません。
-4.弊社は、利用者から受領する本公開情報の評価結果、不具合、ご意見、ご要望、改修内容等（以下、これらを総称して「報告内容」といいます）を、以下の各号に従い取り扱うものとします。
+```
+import 'leaflet/dist/leaflet.js';
+```
 
-    (1) 弊社が運営する本公開情報のコミュニティにおいて、報告内容をお受けします。
+Edit [src/main/webapp/content/css/vendor.css](src/main/webapp/content/css/vendor.css) file:
 
-    (2) 弊社は、すべての報告内容に対する不具合の是正又はご意見、ご要望、改修内容の反映を保証するものではありません。
+```
+@import '~leaflet/dist/leaflet.css';
+```
 
-    (3) 受領した報告内容は、本公開情報の一部として公開され、弊社および利用者が無償で利用できるものとします。
+Note: there are still few other things remaining to do for Leaflet that we won't detail here.
 
-以上
+For further instructions on how to develop with JHipster, have a look at [Using JHipster in development][].
+
+### Using angular-cli
+
+You can also use [Angular CLI][] to generate some custom client code.
+
+For example, the following command:
+
+    ng generate component my-component
+
+will generate few files:
+
+    create src/main/webapp/app/my-component/my-component.component.html
+    create src/main/webapp/app/my-component/my-component.component.ts
+    update src/main/webapp/app/app.module.ts
+
+### Doing API-First development using openapi-generator
+
+[OpenAPI-Generator]() is configured for this application. You can generate API code from the `src/main/resources/swagger/api.yml` definition file by running:
+
+```bash
+./mvnw generate-sources
+```
+
+Then implements the generated delegate classes with `@Service` classes.
+
+To edit the `api.yml` definition file, you can use a tool such as [Swagger-Editor](). Start a local instance of the swagger-editor using docker by running: `docker-compose -f src/main/docker/swagger-editor.yml up -d`. The editor will then be reachable at [http://localhost:7742](http://localhost:7742).
+
+Refer to [Doing API-First development][] for more details.
+
+## Building for production
+
+To optimize the testProjectToDevOps application for production, run:
+
+    ./mvnw -Pprod clean package
+
+This will concatenate and minify the client CSS and JavaScript files. It will also modify `index.html` so it references these new files.
+To ensure everything worked, run:
+
+    java -jar target/*.war
+
+Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
+
+Refer to [Using JHipster in production][] for more details.
+
+## Testing
+
+To launch your application's tests, run:
+
+    ./mvnw clean test
+
+### Client tests
+
+Unit tests are run by [Jest][] and written with [Jasmine][]. They're located in [src/test/javascript/](src/test/javascript/) and can be run with:
+
+    npm test
+
+For more information, refer to the [Running tests page][].
+
+### Code quality
+
+Sonar is used to analyse code quality. You can start a local Sonar server (accessible on http://localhost:9001) with:
+
+```
+docker-compose -f src/main/docker/sonar.yml up -d
+```
+
+Then, run a Sonar analysis:
+
+```
+./mvnw -Pprod clean test sonar:sonar
+```
+
+For more information, refer to the [Code quality page][].
+
+## Using Docker to simplify development (optional)
+
+You can use Docker to improve your JHipster development experience. A number of docker-compose configuration are available in the [src/main/docker](src/main/docker) folder to launch required third party services.
+
+For example, to start a postgresql database in a docker container, run:
+
+    docker-compose -f src/main/docker/postgresql.yml up -d
+
+To stop it and remove the container, run:
+
+    docker-compose -f src/main/docker/postgresql.yml down
+
+You can also fully dockerize your application and all the services that it depends on.
+To achieve this, first build a docker image of your app by running:
+
+    ./mvnw package -Pprod verify jib:dockerBuild
+
+Then run:
+
+    docker-compose -f src/main/docker/app.yml up -d
+
+For more information refer to [Using Docker and Docker-Compose][], this page also contains information on the docker-compose sub-generator (`jhipster docker-compose`), which is able to generate docker configurations for one or several JHipster applications.
+
+## Continuous Integration (optional)
+
+To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
+
+[jhipster homepage and latest documentation]: https://www.jhipster.tech
+[jhipster 5.8.2 archive]: https://www.jhipster.tech/documentation-archive/v5.8.2
+[using jhipster in development]: https://www.jhipster.tech/documentation-archive/v5.8.2/development/
+[service discovery and configuration with the jhipster-registry]: https://www.jhipster.tech/documentation-archive/v5.8.2/microservices-architecture/#jhipster-registry
+[using docker and docker-compose]: https://www.jhipster.tech/documentation-archive/v5.8.2/docker-compose
+[using jhipster in production]: https://www.jhipster.tech/documentation-archive/v5.8.2/production/
+[running tests page]: https://www.jhipster.tech/documentation-archive/v5.8.2/running-tests/
+[code quality page]: https://www.jhipster.tech/documentation-archive/v5.8.2/code-quality/
+[setting up continuous integration]: https://www.jhipster.tech/documentation-archive/v5.8.2/setting-up-ci/
+[node.js]: https://nodejs.org/
+[yarn]: https://yarnpkg.org/
+[webpack]: https://webpack.github.io/
+[angular cli]: https://cli.angular.io/
+[browsersync]: http://www.browsersync.io/
+[jest]: https://facebook.github.io/jest/
+[jasmine]: http://jasmine.github.io/2.0/introduction.html
+[protractor]: https://angular.github.io/protractor/
+[leaflet]: http://leafletjs.com/
+[definitelytyped]: http://definitelytyped.org/
+[openapi-generator]: https://openapi-generator.tech
+[swagger-editor]: http://editor.swagger.io
+[doing api-first development]: https://www.jhipster.tech/documentation-archive/v5.8.2/doing-api-first-development/
